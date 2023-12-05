@@ -11,15 +11,11 @@ import torch
 from diffusers import DiffusionPipeline
 
 DESCRIPTION = """# Playground v2"""
-if not torch.cuda.is_available():
-    DESCRIPTION += "\n<p>Running on CPU 🥶 This demo may not work on CPU.</p>"
-
 MAX_SEED = np.iinfo(np.int32).max
 CACHE_EXAMPLES = torch.cuda.is_available() and os.getenv("CACHE_EXAMPLES", "1") == "1"
 MAX_IMAGE_SIZE = int(os.getenv("MAX_IMAGE_SIZE", "1536"))
 USE_TORCH_COMPILE = os.getenv("USE_TORCH_COMPILE", "0") == "1"
 ENABLE_CPU_OFFLOAD = os.getenv("ENABLE_CPU_OFFLOAD", "0") == "1"
-
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 NUM_IMAGES_PER_PROMPT = 1
@@ -107,11 +103,6 @@ h1{text-align:center}
 '''
 with gr.Blocks(css=css) as demo:
     gr.Markdown(DESCRIPTION)
-    gr.DuplicateButton(
-        value="Duplicate Space for private use",
-        elem_id="duplicate-button",
-        visible=os.getenv("SHOW_DUPLICATE_BUTTON") == "1",
-    )
     with gr.Group():
         with gr.Row():
             prompt = gr.Text(
@@ -201,4 +192,4 @@ with gr.Blocks(css=css) as demo:
     )
 
 if __name__ == "__main__":
-    demo.queue(max_size=20).launch()
+    demo.queue(max_size=20).launch(share=True)
