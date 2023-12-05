@@ -102,7 +102,7 @@ examples = [
 ]
 
 css = '''
-.gradio-container{max-width: 600px !important}
+.gradio-container{max-width: 560px !important}
 h1{text-align:center}
 '''
 with gr.Blocks(css=css) as demo:
