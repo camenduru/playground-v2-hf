@@ -74,7 +74,6 @@ def generate(
 
     if not use_negative_prompt:
         negative_prompt = None  # type: ignore
-    prompt, negative_prompt = apply_style(style, prompt, negative_prompt)
     
     images = pipe(
         prompt=prompt,
