@@ -32,11 +32,11 @@ if torch.cuda.is_available():
         add_watermarker=False,
         variant="fp16"
     )
-    #if ENABLE_CPU_OFFLOAD:
-    #    pipe.enable_model_cpu_offload()
-    #else:
-    #    pipe.to(device)    
-    #    print("Loaded on Device!")
+    if ENABLE_CPU_OFFLOAD:
+        pipe.enable_model_cpu_offload()
+    else:
+        pipe.to(device)    
+        print("Loaded on Device!")
     
     if USE_TORCH_COMPILE:
         pipe.unet = torch.compile(pipe.unet, mode="reduce-overhead", fullgraph=True)
