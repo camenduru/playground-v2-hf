@@ -102,7 +102,7 @@ examples = [
 ]
 
 css = '''
-.gradio-container{max-width: 680px !important}
+.gradio-container{max-width: 600px !important}
 h1{text-align:center}
 '''
 with gr.Blocks(css=css) as demo:
@@ -122,7 +122,7 @@ with gr.Blocks(css=css) as demo:
                 container=False,
             )
             run_button = gr.Button("Run", scale=0)
-        result = gr.Gallery(label="Result", columns=NUM_IMAGES_PER_PROMPT, height=680, show_label=False)
+        result = gr.Gallery(label="Result", columns=NUM_IMAGES_PER_PROMPT, show_label=False)
     with gr.Accordion("Advanced options", open=False):
         with gr.Row():
             use_negative_prompt = gr.Checkbox(label="Use negative prompt", value=False)
