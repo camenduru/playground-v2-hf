@@ -17,7 +17,7 @@ if not torch.cuda.is_available():
 MAX_SEED = np.iinfo(np.int32).max
 CACHE_EXAMPLES = torch.cuda.is_available() and os.getenv("CACHE_EXAMPLES", "1") == "1"
 MAX_IMAGE_SIZE = int(os.getenv("MAX_IMAGE_SIZE", "1536"))
-USE_TORCH_COMPILE = os.getenv("USE_TORCH_COMPILE", "1") == "1"
+USE_TORCH_COMPILE = os.getenv("USE_TORCH_COMPILE", "0") == "1"
 ENABLE_CPU_OFFLOAD = os.getenv("ENABLE_CPU_OFFLOAD", "0") == "1"
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -32,11 +32,11 @@ if torch.cuda.is_available():
         add_watermarker=False,
         variant="fp16"
     )
-    if ENABLE_CPU_OFFLOAD:
-        pipe.enable_model_cpu_offload()
-    else:
-        pipe.to(device)
-        print("Loaded on Device!")
+    #if ENABLE_CPU_OFFLOAD:
+    #    pipe.enable_model_cpu_offload()
+    #else:
+    #    pipe.to(device)    
+    #    print("Loaded on Device!")
     
     if USE_TORCH_COMPILE:
         pipe.unet = torch.compile(pipe.unet, mode="reduce-overhead", fullgraph=True)
@@ -67,6 +67,7 @@ def generate(
     use_resolution_binning: bool = True,
     progress=gr.Progress(track_tqdm=True),
 ):
+    pipe.to(device)
     seed = int(randomize_seed_fn(seed, randomize_seed))
     generator = torch.Generator().manual_seed(seed)
 
