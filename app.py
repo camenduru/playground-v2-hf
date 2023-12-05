@@ -81,7 +81,7 @@ def generate(
         width=width,
         height=height,
         guidance_scale=guidance_scale,
-        num_inference_steps=num_inference_steps,
+        num_inference_steps=25,
         generator=generator,
         num_images_per_prompt=NUM_IMAGES_PER_PROMPT,
         use_resolution_binning=use_resolution_binning,
